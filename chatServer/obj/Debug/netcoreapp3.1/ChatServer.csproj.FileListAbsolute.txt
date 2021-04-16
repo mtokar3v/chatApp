@@ -1,0 +1,13 @@
+C:\Users\mtoka\source\repos\chatServer\obj\Debug\netcoreapp3.1\ChatServer.AssemblyInfoInputs.cache
+C:\Users\mtoka\source\repos\chatServer\obj\Debug\netcoreapp3.1\ChatServer.AssemblyInfo.cs
+C:\Users\mtoka\source\repos\chatServer\obj\Debug\netcoreapp3.1\ChatServer.csproj.CoreCompileInputs.cache
+C:\Users\mtoka\source\repos\chatServer\bin\Debug\netcoreapp3.1\ChatServer.exe
+C:\Users\mtoka\source\repos\chatServer\bin\Debug\netcoreapp3.1\ChatServer.deps.json
+C:\Users\mtoka\source\repos\chatServer\bin\Debug\netcoreapp3.1\ChatServer.runtimeconfig.json
+C:\Users\mtoka\source\repos\chatServer\bin\Debug\netcoreapp3.1\ChatServer.runtimeconfig.dev.json
+C:\Users\mtoka\source\repos\chatServer\bin\Debug\netcoreapp3.1\ChatServer.dll
+C:\Users\mtoka\source\repos\chatServer\bin\Debug\netcoreapp3.1\ChatServer.pdb
+C:\Users\mtoka\source\repos\chatServer\obj\Debug\netcoreapp3.1\ChatServer.dll
+C:\Users\mtoka\source\repos\chatServer\obj\Debug\netcoreapp3.1\ChatServer.pdb
+C:\Users\mtoka\source\repos\chatServer\obj\Debug\netcoreapp3.1\ChatServer.genruntimeconfig.cache
+C:\Users\mtoka\source\repos\chatServer\obj\Debug\netcoreapp3.1\ChatServer.csprojAssemblyReference.cache
