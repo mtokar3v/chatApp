@@ -21,15 +21,15 @@ namespace ChatServer
             ID = Guid.NewGuid().ToString();
         }
 
-       
+
         public void Procces()
         {
             //клиент в первую очередь отправляет свой ник-нейм
             userName = GetMessege();
             Console.WriteLine(userName);
-            
 
-            while(true)
+
+            while (true)
             {
                 string msg = this.userName + ": " + GetMessege();
                 Console.WriteLine(msg);
@@ -50,13 +50,14 @@ namespace ChatServer
                 }
                 while (stream.DataAvailable);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                //!
             }
             return builder.ToString();
         }
 
-       
+
     }
 }

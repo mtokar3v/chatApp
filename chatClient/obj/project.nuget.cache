@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KpomvbQIQh3baJ3taBLSjD+AO7iGrc3v9Mi0NL6CVJioAh+MxDW9yEE4JsCfC8epiUMkiHS5WASNecrxon3QzA==",
+  "dgSpecHash": "c8aGU3is8KfECIl6BCcXhvA0TXXCsSk8YDhY+3hE3AFymxxE7YkBujD8YCnoscbiWJbPn5MZuYh/ZlYZXyXkBQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mtoka\\source\\repos\\chatClient\\ChatClient.csproj",
+  "projectFilePath": "C:\\Users\\mtoka\\source\\repos\\chatApp\\chatClient\\ChatClient.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

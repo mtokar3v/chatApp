@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mtoka\\source\\repos\\chatClient\\ChatClient.csproj": {}
+    "C:\\Users\\mtoka\\source\\repos\\chatApp\\chatClient\\ChatClient.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mtoka\\source\\repos\\chatClient\\ChatClient.csproj": {
+    "C:\\Users\\mtoka\\source\\repos\\chatApp\\chatClient\\ChatClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mtoka\\source\\repos\\chatClient\\ChatClient.csproj",
+        "projectUniqueName": "C:\\Users\\mtoka\\source\\repos\\chatApp\\chatClient\\ChatClient.csproj",
         "projectName": "ChatClient",
-        "projectPath": "C:\\Users\\mtoka\\source\\repos\\chatClient\\ChatClient.csproj",
+        "projectPath": "C:\\Users\\mtoka\\source\\repos\\chatApp\\chatClient\\ChatClient.csproj",
         "packagesPath": "C:\\Users\\mtoka\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mtoka\\source\\repos\\chatClient\\obj\\",
+        "outputPath": "C:\\Users\\mtoka\\source\\repos\\chatApp\\chatClient\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mtoka\\AppData\\Roaming\\NuGet\\NuGet.Config",

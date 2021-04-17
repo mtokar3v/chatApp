@@ -14,9 +14,9 @@ namespace ChatServer
                 server = new ServerObject();
                 Thread thread = new Thread(new ThreadStart(server.Listen));
                 thread.Start();
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }

@@ -32,7 +32,7 @@ namespace chatClient
                 thread.Start();
                 SendMessage();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 //добавить дисконект
@@ -41,11 +41,12 @@ namespace chatClient
 
         static void ReceiveMessage()
         {
-            StringBuilder builder = new StringBuilder();
-            while(true)
+            
+            while (true)
             {
                 try
                 {
+                    StringBuilder builder = new StringBuilder();
                     byte[] data = new byte[256];
                     do
                     {
@@ -58,7 +59,7 @@ namespace chatClient
                     Console.WriteLine(msg);
 
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }

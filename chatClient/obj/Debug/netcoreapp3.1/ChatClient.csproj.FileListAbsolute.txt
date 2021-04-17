@@ -11,3 +11,16 @@ C:\Users\mtoka\source\repos\chatClient\obj\Debug\netcoreapp3.1\ChatClient.csproj
 C:\Users\mtoka\source\repos\chatClient\obj\Debug\netcoreapp3.1\ChatClient.dll
 C:\Users\mtoka\source\repos\chatClient\obj\Debug\netcoreapp3.1\ChatClient.pdb
 C:\Users\mtoka\source\repos\chatClient\obj\Debug\netcoreapp3.1\ChatClient.genruntimeconfig.cache
+C:\Users\mtoka\source\repos\chatApp\chatClient\bin\Debug\netcoreapp3.1\ChatClient.exe
+C:\Users\mtoka\source\repos\chatApp\chatClient\bin\Debug\netcoreapp3.1\ChatClient.deps.json
+C:\Users\mtoka\source\repos\chatApp\chatClient\bin\Debug\netcoreapp3.1\ChatClient.runtimeconfig.json
+C:\Users\mtoka\source\repos\chatApp\chatClient\bin\Debug\netcoreapp3.1\ChatClient.runtimeconfig.dev.json
+C:\Users\mtoka\source\repos\chatApp\chatClient\bin\Debug\netcoreapp3.1\ChatClient.dll
+C:\Users\mtoka\source\repos\chatApp\chatClient\bin\Debug\netcoreapp3.1\ChatClient.pdb
+C:\Users\mtoka\source\repos\chatApp\chatClient\obj\Debug\netcoreapp3.1\ChatClient.csprojAssemblyReference.cache
+C:\Users\mtoka\source\repos\chatApp\chatClient\obj\Debug\netcoreapp3.1\ChatClient.AssemblyInfoInputs.cache
+C:\Users\mtoka\source\repos\chatApp\chatClient\obj\Debug\netcoreapp3.1\ChatClient.AssemblyInfo.cs
+C:\Users\mtoka\source\repos\chatApp\chatClient\obj\Debug\netcoreapp3.1\ChatClient.csproj.CoreCompileInputs.cache
+C:\Users\mtoka\source\repos\chatApp\chatClient\obj\Debug\netcoreapp3.1\ChatClient.dll
+C:\Users\mtoka\source\repos\chatApp\chatClient\obj\Debug\netcoreapp3.1\ChatClient.pdb
+C:\Users\mtoka\source\repos\chatApp\chatClient\obj\Debug\netcoreapp3.1\ChatClient.genruntimeconfig.cache

@@ -27,7 +27,7 @@ namespace ChatServer
                     clientThread.Start();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 //нужно по-хорошему отключиться
@@ -53,7 +53,7 @@ namespace ChatServer
             byte[] data = Encoding.UTF8.GetBytes(msg);
             foreach (ClientObject tmp in ClientList)
             {
-                if(tmp.ID != id)
+                if (tmp.ID != id)
                     tmp.stream.Write(data, 0, data.Length);
             }
         }

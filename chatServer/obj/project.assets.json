@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mtoka\\source\\repos\\chatServer\\chatServer.csproj",
-      "projectName": "chatServer",
-      "projectPath": "C:\\Users\\mtoka\\source\\repos\\chatServer\\chatServer.csproj",
+      "projectUniqueName": "C:\\Users\\mtoka\\source\\repos\\chatApp\\chatServer\\ChatServer.csproj",
+      "projectName": "ChatServer",
+      "projectPath": "C:\\Users\\mtoka\\source\\repos\\chatApp\\chatServer\\ChatServer.csproj",
       "packagesPath": "C:\\Users\\mtoka\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mtoka\\source\\repos\\chatServer\\obj\\",
+      "outputPath": "C:\\Users\\mtoka\\source\\repos\\chatApp\\chatServer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mtoka\\AppData\\Roaming\\NuGet\\NuGet.Config",
