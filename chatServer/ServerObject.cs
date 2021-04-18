@@ -9,13 +9,14 @@ namespace ChatServer
 {
     class ServerObject
     {
-        private TcpListener tcpListener;
+        internal TcpListener tcpListener;
         static private List<ClientObject> ClientList = new List<ClientObject>();
+        TcpClient client = null;
+        ClientObject clientObject = null;
         public void Listen()
         {
             Console.WriteLine("Ожидание подключений...");
-            TcpClient client = null;
-            ClientObject clientObject = null;
+            
             try
             {
                 tcpListener = new TcpListener(IPAddress.Any, 8888);
@@ -30,11 +31,8 @@ namespace ChatServer
             }
             catch (Exception ex)
             {
-                DelConnection(clientObject.ID);
                 Console.WriteLine(ex.Message);
-                tcpListener.Stop();
-                client.Close();
-               
+                disconnect(this);
             }
         }
         static protected internal void AddConection(ClientObject clientObj)
@@ -63,6 +61,13 @@ namespace ChatServer
                 if (tmp.ID != id)
                     tmp.stream.Write(data, 0, data.Length);
             }
+        }
+
+        public void disconnect(ServerObject server)
+        {
+            DelConnection(server.clientObject.ID);
+            server.tcpListener.Stop();
+            server.client.Close();
         }
     }
 }

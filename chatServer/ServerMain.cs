@@ -19,6 +19,7 @@ namespace ChatServer
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                server.disconnect(server);
             }
         }
     }
