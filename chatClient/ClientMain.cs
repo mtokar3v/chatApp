@@ -34,8 +34,12 @@ namespace chatClient
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                //добавить дисконект
+                Console.WriteLine(ex.Message); 
+            }
+            finally
+            {
+                client.Close();
+                stream.Close();
             }
         }
 
@@ -59,9 +63,12 @@ namespace chatClient
                     Console.WriteLine(msg);
 
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Подключение прервано!");
+                    client.Close();
+                    stream.Close();
+                    break;
                 }
             }
         }
