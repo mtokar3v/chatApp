@@ -30,7 +30,15 @@ namespace chatClient
                 Console.WriteLine("Добро пожаловать, {0}", userName);
                 Thread thread = new Thread(new ThreadStart(ReceiveMessage));
                 thread.Start();
-                SendMessage();
+
+                //Console.WriteLine("1. Групповой чат");
+                //Console.WriteLine("2. Шептать");
+                //string ch = Console.ReadLine();
+
+                Console.WriteLine("Кому?");
+                string username = Console.ReadLine();
+
+                SendMessage(username);
             }
             catch (Exception ex)
             {
@@ -73,14 +81,26 @@ namespace chatClient
             }
         }
 
-        static void SendMessage()
+        static void SendMessage(string TO = null)
         {
+            //предполагается, что TO - это ID
             while (true)
             {
+                byte[] data;
+                if (String.IsNullOrEmpty(TO))
+                    data = Encoding.UTF8.GetBytes("-1");    //общий чат
+                else
+                    data = Encoding.UTF8.GetBytes(TO);
+
+                stream.Write(data, 0, data.Length);
+
                 string msg = Console.ReadLine();
-                byte[] data = Encoding.UTF8.GetBytes(msg);
+                data = Encoding.UTF8.GetBytes(msg);
                 stream.Write(data, 0, data.Length);
             }
         }
+
+       
+       
     }
 }

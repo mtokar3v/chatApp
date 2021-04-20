@@ -11,6 +11,7 @@ namespace ChatServer
     {
         internal TcpListener tcpListener;
         static private List<ClientObject> ClientList = new List<ClientObject>();
+        static private List<List<ClientObject>> PrivateMessages = new List<List<ClientObject>>();
         TcpClient client = null;
         ClientObject clientObject = null;
         public void Listen()
@@ -35,11 +36,32 @@ namespace ChatServer
                 disconnect(this);
             }
         }
-        static protected internal void AddConection(ClientObject clientObj)
+        static protected internal void AddConection(ClientObject clientObjFIRST)
         {
-            ClientList.Add(clientObj);
+            ClientList.Add(clientObjFIRST);
+            List<ClientObject> tmp = new List<ClientObject>();
+            tmp.Add(clientObjFIRST);
+            PrivateMessages.Add(tmp);
         }
 
+        static protected internal void AddConectionWith(ClientObject clientObjFIRST, ClientObject clientObjSECOND)
+        {
+            foreach (List<ClientObject> i in PrivateMessages)
+            {
+                //0 элемент - сам клиент, последующие - его связи
+                if (i[0] == clientObjFIRST)
+                    i.Add(clientObjSECOND);
+            }
+
+            foreach (List<ClientObject> i in PrivateMessages)
+            {
+                //если начать чат с одним, то чат должен начаться и с другим
+                if (i[0] == clientObjSECOND)
+                    i.Add(clientObjFIRST);
+            }
+        }
+
+        //fix id = name
         static protected internal void DelConnection(string id)
         {
             int count = 0;
@@ -51,6 +73,56 @@ namespace ChatServer
                     break;
                 }
                 count++;
+            }
+        }
+
+        static protected internal void DelConnection(string idFrom, string idTO)
+        {
+            int count = 0;
+            foreach (List<ClientObject> i in PrivateMessages)
+            { 
+                if (i[0].ID == idFrom)
+                {
+                    foreach (ClientObject j in i)
+                    {
+                        if (j.ID == idTO)
+                        {
+                            i.RemoveAt(count);
+                            break;
+                        }
+                        count++;
+                    }
+                    break;
+                }
+            }
+        }
+
+        //предположим, что idTO - username
+        internal void SendTo(string msg, string idFrom, string idTO)
+        {
+            byte[] data = Encoding.UTF8.GetBytes(msg);
+
+            try
+            {
+                foreach (List<ClientObject> i in PrivateMessages)
+                {
+                    if (i[0].ID == idFrom)
+                    {
+                        foreach (ClientObject j in i)
+                        {
+                            if (j.userName == idTO)
+                            {
+                                j.stream.Write(data, 0, data.Length);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            catch(ArgumentOutOfRangeException)   
+            {
+                Console.WriteLine("Пользователя не существует");
             }
         }
         internal void SendToAll(string msg, string id)
@@ -68,6 +140,15 @@ namespace ChatServer
             DelConnection(server.clientObject.ID);
             server.tcpListener.Stop();
             server.client.Close();
+        }
+
+        //пока что id - это name
+        static public ClientObject getClientFromID(string id)
+        {
+            foreach (ClientObject tmp in ClientList)
+                if (tmp.userName == id)
+                    return tmp;
+            return null;
         }
     }
 }
