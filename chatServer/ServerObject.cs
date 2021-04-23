@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define DEBUG
+#define RELEASE
+using System;
 using System.Net.Sockets;
 using System.Threading;
 using System.Net;
@@ -26,8 +28,12 @@ namespace ChatServer
                 {
                     client = tcpListener.AcceptTcpClient();
                     clientObject = new ClientObject(client, this);
+#if RELEASE
                     Thread clientThread = new Thread(new ThreadStart(clientObject.Procces));
                     clientThread.Start();
+#elif DEBUG
+                    clientObject.Procces();
+#endif
                 }
             }
             catch (Exception ex)

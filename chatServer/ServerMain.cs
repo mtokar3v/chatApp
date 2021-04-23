@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define DEBUG
+#define RELEASE
+using System;
 using System.Threading;
 using System.Text;
 
@@ -11,10 +13,13 @@ namespace ChatServer
         {
             try
             {
+#if RELEASE
                 server = new ServerObject();
                 Thread thread = new Thread(new ThreadStart(server.Listen));
                 thread.Start();
-
+#elif DEBUG
+                server.Listen();
+#endif
             }
             catch (Exception ex)
             {

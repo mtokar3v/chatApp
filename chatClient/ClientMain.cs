@@ -31,14 +31,24 @@ namespace chatClient
                 Thread thread = new Thread(new ThreadStart(ReceiveMessage));
                 thread.Start();
 
-                //Console.WriteLine("1. Групповой чат");
-                //Console.WriteLine("2. Шептать");
-                //string ch = Console.ReadLine();
+                byte ch;
+                do
+                {
+                    Console.WriteLine("1. Групповой чат");
+                    Console.WriteLine("2. Личное сообщение");
+                    ch = Convert.ToByte(Console.ReadLine());
 
-                Console.WriteLine("Кому?");
-                string username = Console.ReadLine();
+                    switch (ch)
+                    {
+                        case 1: SendMessage(); break;
+                        case 2:
+                            Console.WriteLine("Кому?");
+                            string username = Console.ReadLine();
+                            SendMessage(username); break;
+                    }
 
-                SendMessage(username);
+                    Console.Clear();
+                } while (ch != 3);
             }
             catch (Exception ex)
             {
@@ -83,18 +93,27 @@ namespace chatClient
 
         static void SendMessage(string TO = null)
         {
+            byte[] data = null;
             //предполагается, что TO - это ID
             while (true)
             {
-                byte[] data;
+                string msg = Console.ReadLine();
+
+                if(msg == "/online")
+                {
+                    data = Encoding.UTF8.GetBytes("-2");    //список людей онлайн
+                }
+                if(msg == "/exit")
+                {
+                    return;
+                }
+
                 if (String.IsNullOrEmpty(TO))
                     data = Encoding.UTF8.GetBytes("-1");    //общий чат
                 else
                     data = Encoding.UTF8.GetBytes(TO);
-
                 stream.Write(data, 0, data.Length);
 
-                string msg = Console.ReadLine();
                 data = Encoding.UTF8.GetBytes(msg);
                 stream.Write(data, 0, data.Length);
             }

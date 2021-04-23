@@ -31,12 +31,13 @@ namespace ChatServer
                 userName = GetMessege();
                 Console.WriteLine(userName);
                 server.SendToAll(userName + " вошел в чат", this.ID);
-                string id = GetMessege();
+                string id;
                 string msg;
                 while (true)
                 {
                     try
                     {
+                        id = GetID();
                         msg = this.userName + ": " + GetMessege();
                         Console.WriteLine(msg);
 
@@ -74,20 +75,16 @@ namespace ChatServer
             }
         }
 
-        //private int GetID()
-        //{
-        //    byte[] data = new byte[256];
-        //    StringBuilder builder = new StringBuilder();
+        private string GetID()
+        {
+            byte[] data = new byte[256];
+            StringBuilder builder = new StringBuilder();
 
-        //    do
-        //    {
-        //        int bytes = stream.Read(data, 0, data.Length);
-        //        builder.Append(Encoding.UTF8.GetString(data, 0, bytes));
-        //    }
-        //    while (stream.DataAvailable);
+            int bytes = stream.Read(data, 0, data.Length);
+            builder.Append(Encoding.UTF8.GetString(data, 0, bytes));
 
-        //    return Convert.ToInt32(builder.ToString());
-        //}
+            return builder.ToString();
+        }
         private string GetMessege()
         {
             byte[] data = new byte[256];
@@ -98,7 +95,7 @@ namespace ChatServer
                 builder.Append(Encoding.UTF8.GetString(data, 0, bytes));
             }
             while (stream.DataAvailable);
-            
+
             return builder.ToString();
         }
 
