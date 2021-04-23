@@ -19,7 +19,7 @@ namespace ChatServer
         public void Listen()
         {
             Console.WriteLine("Ожидание подключений...");
-            
+
             try
             {
                 tcpListener = new TcpListener(IPAddress.Any, 8888);
@@ -67,7 +67,6 @@ namespace ChatServer
             }
         }
 
-        //fix id = name
         static protected internal void DelConnection(string id)
         {
             int count = 0;
@@ -75,36 +74,44 @@ namespace ChatServer
             {
                 if (tmp.ID == id)
                 {
+                    tmp.active = false;
                     ClientList.RemoveAt(count);
                     break;
                 }
                 count++;
             }
+
+            //чистка баз данных
+
+            //count = 0;
+            //foreach (List<ClientObject> i in PrivateMessages)
+            //{
+            //    if (i[0].ID == id)
+            //    {
+            //        count = 0;
+            //        foreach (ClientObject j in i)
+            //        {
+            //            i.RemoveAt(count);
+            //            count++;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        count = 0;
+            //        foreach (ClientObject j in i)
+            //        {
+            //            if (j.ID == id)
+            //            {
+            //                i.RemoveAt(count);
+            //                break;
+            //            }
+            //            count++;
+            //        }
+            //    }
+            //}
         }
 
-        static protected internal void DelConnection(string idFrom, string idTO)
-        {
-            int count = 0;
-            foreach (List<ClientObject> i in PrivateMessages)
-            { 
-                if (i[0].ID == idFrom)
-                {
-                    foreach (ClientObject j in i)
-                    {
-                        if (j.ID == idTO)
-                        {
-                            i.RemoveAt(count);
-                            break;
-                        }
-                        count++;
-                    }
-                    break;
-                }
-            }
-        }
-
-        //предположим, что idTO - username
-        internal void SendTo(string msg, string idFrom, string idTO)
+        internal void SendTo(string msg, string idFrom, string nameTO)
         {
             byte[] data = Encoding.UTF8.GetBytes(msg);
 
@@ -116,7 +123,7 @@ namespace ChatServer
                     {
                         foreach (ClientObject j in i)
                         {
-                            if (j.userName == idTO)
+                            if (j.userName == nameTO)
                             {
                                 j.stream.Write(data, 0, data.Length);
                                 break;
@@ -126,7 +133,7 @@ namespace ChatServer
                     }
                 }
             }
-            catch(ArgumentOutOfRangeException)   
+            catch (ArgumentOutOfRangeException)
             {
                 Console.WriteLine("Пользователя не существует");
             }
@@ -136,7 +143,7 @@ namespace ChatServer
             byte[] data = Encoding.UTF8.GetBytes(msg);
             foreach (ClientObject tmp in ClientList)
             {
-                if (tmp.ID != id)
+                if (tmp.ID != id && tmp.active)
                     tmp.stream.Write(data, 0, data.Length);
             }
         }
@@ -148,13 +155,21 @@ namespace ChatServer
             server.client.Close();
         }
 
-        //пока что id - это name
-        static public ClientObject getClientFromID(string id)
+        static public ClientObject getClientFromNAME(string name)
         {
             foreach (ClientObject tmp in ClientList)
-                if (tmp.userName == id)
+                if (tmp.userName == name)
                     return tmp;
             return null;
+        }
+
+        static public List<byte[]> GetList()
+        {
+            List<byte[]> datalist = new List<byte[]>();
+            foreach (ClientObject i in ClientList)
+                if (i.active)
+                    datalist.Add(Encoding.UTF8.GetBytes(i.userName + '\n'));
+            return datalist;
         }
     }
 }

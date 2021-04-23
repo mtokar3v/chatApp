@@ -2,20 +2,22 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-
+using System.Collections.Generic;
 
 namespace ChatServer
 {
     class ClientObject
     {
+        internal bool active;
         internal NetworkStream stream;
-        ServerObject server;
+        private ServerObject server;
         internal string userName { get; set; }
         internal string ID;
-        TcpClient tcp;
+        private TcpClient tcp;
 
         public ClientObject(TcpClient clientObj, ServerObject serverObj)
         {
+            active = true;
             tcp = clientObj;
             stream = clientObj.GetStream();
             server = serverObj;
@@ -31,29 +33,38 @@ namespace ChatServer
                 userName = GetMessege();
                 Console.WriteLine(userName);
                 server.SendToAll(userName + " вошел в чат", this.ID);
-                string id;
+                string friendName;
                 string msg;
                 while (true)
                 {
                     try
                     {
-                        id = GetID();
+                        friendName = GetID();
                         msg = this.userName + ": " + GetMessege();
                         Console.WriteLine(msg);
 
-                        if (id == "-1")
+                        if (friendName == "-1")
                             server.SendToAll(msg, this.ID);
+                        else if(friendName == "-2")
+                        {
+
+                            List<byte[]> tmp = ServerObject.GetList();
+                            foreach(byte[] clientdata in tmp)
+                                stream.Write(clientdata);
+                        }
                         else
                         {
-                            ClientObject tmp = ServerObject.getClientFromID(id);
-                            if (tmp != null)
+                            ClientObject tmp = ServerObject.getClientFromNAME(friendName);
+                            if (tmp != null && tmp.active)
                             {
                                 ServerObject.AddConectionWith(this, tmp);
-                                server.SendTo(msg, this.ID, id);
+                                server.SendTo(msg, this.ID, friendName);
                             }
                             else
                                 Console.WriteLine("пользователя не существует");
                         }
+
+                      
                     }
                     catch
                     {

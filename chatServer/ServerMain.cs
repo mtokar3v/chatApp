@@ -13,8 +13,8 @@ namespace ChatServer
         {
             try
             {
-#if RELEASE
                 server = new ServerObject();
+#if RELEASE          
                 Thread thread = new Thread(new ThreadStart(server.Listen));
                 thread.Start();
 #elif DEBUG

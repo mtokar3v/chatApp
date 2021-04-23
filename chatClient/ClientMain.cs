@@ -108,14 +108,15 @@ namespace chatClient
                     return;
                 }
 
-                if (String.IsNullOrEmpty(TO))
+                if (String.IsNullOrEmpty(TO) && data == null)
                     data = Encoding.UTF8.GetBytes("-1");    //общий чат
-                else
+                else if(data == null)
                     data = Encoding.UTF8.GetBytes(TO);
                 stream.Write(data, 0, data.Length);
 
                 data = Encoding.UTF8.GetBytes(msg);
                 stream.Write(data, 0, data.Length);
+                data = null;
             }
         }
 
