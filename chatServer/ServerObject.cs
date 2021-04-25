@@ -113,6 +113,7 @@ namespace ChatServer
 
         internal void SendTo(string msg, string idFrom, string nameTO)
         {
+           // byte[] nameData = Encoding.UTF8.GetBytes(name+": ");
             byte[] data = Encoding.UTF8.GetBytes(msg);
 
             try
@@ -125,6 +126,7 @@ namespace ChatServer
                         {
                             if (j.userName == nameTO)
                             {
+                               // j.stream.Write(nameData, 0, nameData.Length);
                                 j.stream.Write(data, 0, data.Length);
                                 break;
                             }
@@ -140,11 +142,15 @@ namespace ChatServer
         }
         internal void SendToAll(string msg, string id)
         {
+            //byte[] nameData = Encoding.UTF8.GetBytes(name+": ");
             byte[] data = Encoding.UTF8.GetBytes(msg);
             foreach (ClientObject tmp in ClientList)
             {
                 if (tmp.ID != id && tmp.active)
+                {
+                   // tmp.stream.Write(nameData, 0, nameData.Length);
                     tmp.stream.Write(data, 0, data.Length);
+                }
             }
         }
 

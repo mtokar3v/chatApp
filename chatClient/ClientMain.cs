@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
+
 namespace chatClient
 {
     class ClientMain
@@ -52,7 +53,7 @@ namespace chatClient
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message); 
+                Console.WriteLine(ex.Message);
             }
             finally
             {
@@ -63,7 +64,7 @@ namespace chatClient
 
         static void ReceiveMessage()
         {
-            
+
             while (true)
             {
                 try
@@ -78,6 +79,7 @@ namespace chatClient
                     while (stream.DataAvailable);
 
                     string msg = builder.ToString();
+                    msg = Aes.Cryptography.Decrypt(msg, "pass");
                     Console.WriteLine(msg);
 
                 }
@@ -94,33 +96,42 @@ namespace chatClient
         static void SendMessage(string TO = null)
         {
             byte[] data = null;
-            //предполагается, что TO - это ID
             while (true)
             {
-                string msg = Console.ReadLine();
-
-                if(msg == "/online")
+                try
                 {
-                    data = Encoding.UTF8.GetBytes("-2");    //список людей онлайн
+                    string msg = Console.ReadLine();
+
+                    if (msg == "/online")
+                    {
+                        data = Encoding.UTF8.GetBytes("-2");    //список людей онлайн
+                    }
+                    if (msg == "/exit")
+                    {
+                        return;
+                    }
+
+                    //AES шифрование
+                    msg = Aes.Cryptography.Encrypt(msg, "pass");
+
+                    if (String.IsNullOrEmpty(TO) && data == null)
+                        data = Encoding.UTF8.GetBytes("-1");    //общий чат
+                    else if (data == null)
+                        data = Encoding.UTF8.GetBytes(TO);
+                    stream.Write(data, 0, data.Length);
+
+                    data = Encoding.UTF8.GetBytes(msg);
+                    stream.Write(data, 0, data.Length);
+                    data = null;
                 }
-                if(msg == "/exit")
+                catch
                 {
-                    return;
+                    Console.WriteLine("Подключение прервано!");
+                    client.Close();
+                    stream.Close();
+                    break;
                 }
-
-                if (String.IsNullOrEmpty(TO) && data == null)
-                    data = Encoding.UTF8.GetBytes("-1");    //общий чат
-                else if(data == null)
-                    data = Encoding.UTF8.GetBytes(TO);
-                stream.Write(data, 0, data.Length);
-
-                data = Encoding.UTF8.GetBytes(msg);
-                stream.Write(data, 0, data.Length);
-                data = null;
             }
         }
-
-       
-       
     }
 }

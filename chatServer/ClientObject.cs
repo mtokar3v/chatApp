@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace ChatServer
 {
@@ -29,25 +30,24 @@ namespace ChatServer
         {
             try
             {
-                //клиент в первую очередь отправляет свой ник-нейм
                 userName = GetMessege();
                 Console.WriteLine(userName);
-                server.SendToAll(userName + " вошел в чат", this.ID);
+                //server.SendToAll(" вошел в чат", this.ID);
                 string friendName;
                 string msg;
                 while (true)
                 {
                     try
                     {
-                        friendName = GetID();
-                        msg = this.userName + ": " + GetMessege();
+                        friendName = Response();
+                        msg = GetMessege();
+
                         Console.WriteLine(msg);
 
                         if (friendName == "-1")
                             server.SendToAll(msg, this.ID);
                         else if(friendName == "-2")
                         {
-
                             List<byte[]> tmp = ServerObject.GetList();
                             foreach(byte[] clientdata in tmp)
                                 stream.Write(clientdata);
@@ -63,13 +63,11 @@ namespace ChatServer
                             else
                                 Console.WriteLine("пользователя не существует");
                         }
-
-                      
                     }
                     catch
                     {
                         Console.WriteLine("-" + userName);
-                        server.SendToAll(userName + " покинул чат", this.ID);
+                        server.SendToAll(" покинул чат", this.ID);
                         break;
                     }
                 }
@@ -86,7 +84,7 @@ namespace ChatServer
             }
         }
 
-        private string GetID()
+        private string Response()
         {
             byte[] data = new byte[256];
             StringBuilder builder = new StringBuilder();
