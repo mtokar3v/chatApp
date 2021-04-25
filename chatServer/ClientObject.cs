@@ -13,7 +13,7 @@ namespace ChatServer
         internal NetworkStream stream;
         private ServerObject server;
         internal string userName { get; set; }
-        internal string ID;
+        internal string id;
         private TcpClient tcp;
 
         public ClientObject(TcpClient clientObj, ServerObject serverObj)
@@ -22,7 +22,7 @@ namespace ChatServer
             tcp = clientObj;
             stream = clientObj.GetStream();
             server = serverObj;
-            ID = Guid.NewGuid().ToString();
+            id = Guid.NewGuid().ToString();
             ServerObject.AddConection(this);
         }
 
@@ -32,42 +32,45 @@ namespace ChatServer
             {
                 userName = GetMessege();
                 Console.WriteLine(userName);
-                //server.SendToAll(" вошел в чат", this.ID);
-                string friendName;
+                server.SendToAll(userName + " вошел в чат", this.id);
+
+                string msg_info;
                 string msg;
                 while (true)
                 {
                     try
                     {
-                        friendName = Response();
+                        msg_info = Response();
                         msg = GetMessege();
 
                         Console.WriteLine(msg);
 
-                        if (friendName == "-1")
-                            server.SendToAll(msg, this.ID);
-                        else if(friendName == "-2")
+                        if (msg_info == "-1")
                         {
-                            List<byte[]> tmp = ServerObject.GetList();
-                            foreach(byte[] clientdata in tmp)
+                            server.SendToAll(msg, this.id);
+                            continue;
+                        }
+                        else if (msg_info == "-2")
+                        {
+                            foreach (byte[] clientdata in ServerObject.GetList())
                                 stream.Write(clientdata);
+                            continue;
+                        }
+
+                        ClientObject tmp = ServerObject.getClientFromNAME(msg_info);
+                        if (tmp != null && tmp.active)
+                        {
+                           ServerObject.AddConectionWith(this, tmp);
+                           server.SendTo(msg, this.id, msg_info);
                         }
                         else
-                        {
-                            ClientObject tmp = ServerObject.getClientFromNAME(friendName);
-                            if (tmp != null && tmp.active)
-                            {
-                                ServerObject.AddConectionWith(this, tmp);
-                                server.SendTo(msg, this.ID, friendName);
-                            }
-                            else
-                                Console.WriteLine("пользователя не существует");
-                        }
+                            Console.WriteLine("пользователя не существует");
+
                     }
                     catch
                     {
                         Console.WriteLine("-" + userName);
-                        server.SendToAll(" покинул чат", this.ID);
+                        server.SendToAll(userName + " покинул чат", this.id);
                         break;
                     }
                 }
@@ -78,7 +81,7 @@ namespace ChatServer
             }
             finally
             {
-                ServerObject.DelConnection(ID);
+                ServerObject.DelConnection(id);
                 stream.Close();
                 tcp.Close();
             }
@@ -86,7 +89,7 @@ namespace ChatServer
 
         private string Response()
         {
-            byte[] data = new byte[256];
+            byte[] data = new byte[512];
             StringBuilder builder = new StringBuilder();
 
             int bytes = stream.Read(data, 0, data.Length);
@@ -96,7 +99,7 @@ namespace ChatServer
         }
         private string GetMessege()
         {
-            byte[] data = new byte[256];
+            byte[] data = new byte[512];
             StringBuilder builder = new StringBuilder();
             do
             {

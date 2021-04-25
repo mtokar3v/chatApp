@@ -72,7 +72,7 @@ namespace ChatServer
             int count = 0;
             foreach (ClientObject tmp in ClientList)
             {
-                if (tmp.ID == id)
+                if (tmp.id == id)
                 {
                     tmp.active = false;
                     ClientList.RemoveAt(count);
@@ -113,20 +113,18 @@ namespace ChatServer
 
         internal void SendTo(string msg, string idFrom, string nameTO)
         {
-           // byte[] nameData = Encoding.UTF8.GetBytes(name+": ");
             byte[] data = Encoding.UTF8.GetBytes(msg);
 
             try
             {
                 foreach (List<ClientObject> i in PrivateMessages)
                 {
-                    if (i[0].ID == idFrom)
+                    if (i[0].id == idFrom)
                     {
                         foreach (ClientObject j in i)
                         {
                             if (j.userName == nameTO)
                             {
-                               // j.stream.Write(nameData, 0, nameData.Length);
                                 j.stream.Write(data, 0, data.Length);
                                 break;
                             }
@@ -142,21 +140,15 @@ namespace ChatServer
         }
         internal void SendToAll(string msg, string id)
         {
-            //byte[] nameData = Encoding.UTF8.GetBytes(name+": ");
             byte[] data = Encoding.UTF8.GetBytes(msg);
             foreach (ClientObject tmp in ClientList)
-            {
-                if (tmp.ID != id && tmp.active)
-                {
-                   // tmp.stream.Write(nameData, 0, nameData.Length);
+                if (tmp.id != id && tmp.active)
                     tmp.stream.Write(data, 0, data.Length);
-                }
-            }
         }
 
         public void disconnect(ServerObject server)
         {
-            DelConnection(server.clientObject.ID);
+            DelConnection(server.clientObject.id);
             server.tcpListener.Stop();
             server.client.Close();
         }

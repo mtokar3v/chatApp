@@ -32,24 +32,28 @@ namespace chatClient
                 Thread thread = new Thread(new ThreadStart(ReceiveMessage));
                 thread.Start();
 
-                byte ch;
-                do
-                {
-                    Console.WriteLine("1. Групповой чат");
-                    Console.WriteLine("2. Личное сообщение");
-                    ch = Convert.ToByte(Console.ReadLine());
+                SendMessage(userName);
 
-                    switch (ch)
-                    {
-                        case 1: SendMessage(); break;
-                        case 2:
-                            Console.WriteLine("Кому?");
-                            string username = Console.ReadLine();
-                            SendMessage(username); break;
-                    }
+                //byte ch;
+                //do
+                //{
+                //    Console.WriteLine("1. Групповой чат");
+                //    Console.WriteLine("2. Личное сообщение");
+                //    Console.WriteLine("3. Выход");
 
-                    Console.Clear();
-                } while (ch != 3);
+                //    //добавить форматный ввод
+                //    ch = Convert.ToByte(Console.ReadLine());
+
+                //    switch (ch)
+                //    {
+                //        case 1: 
+                //            SendMessage(userName); break;
+                //        case 2:
+                //            Console.WriteLine("Кому?");
+                //            SendMessage(userName, Console.ReadLine()); break;
+                //    }
+                //    Console.Clear();
+                //} while (ch != 3);
             }
             catch (Exception ex)
             {
@@ -81,11 +85,10 @@ namespace chatClient
                     string msg = builder.ToString();
                     msg = Aes.Cryptography.Decrypt(msg, "pass");
                     Console.WriteLine(msg);
-
                 }
                 catch
                 {
-                    Console.WriteLine("Подключение прервано!");
+                    Console.WriteLine("Подключение прервано![ReceiveMessage]");
                     client.Close();
                     stream.Close();
                     break;
@@ -93,7 +96,7 @@ namespace chatClient
             }
         }
 
-        static void SendMessage(string TO = null)
+        static void SendMessage(string from, string to = null)
         {
             byte[] data = null;
             while (true)
@@ -103,30 +106,29 @@ namespace chatClient
                     string msg = Console.ReadLine();
 
                     if (msg == "/online")
-                    {
                         data = Encoding.UTF8.GetBytes("-2");    //список людей онлайн
-                    }
+
                     if (msg == "/exit")
-                    {
                         return;
+
+                    if (data == null)
+                    {
+                        to ??= "-1";
+                        data = Encoding.UTF8.GetBytes(to);
                     }
 
-                    //AES шифрование
-                    msg = Aes.Cryptography.Encrypt(msg, "pass");
-
-                    if (String.IsNullOrEmpty(TO) && data == null)
-                        data = Encoding.UTF8.GetBytes("-1");    //общий чат
-                    else if (data == null)
-                        data = Encoding.UTF8.GetBytes(TO);
                     stream.Write(data, 0, data.Length);
 
+                    msg = from + ": " + msg;
+                    //AES шифрование
+                    msg = Aes.Cryptography.Encrypt(msg, "pass");
                     data = Encoding.UTF8.GetBytes(msg);
                     stream.Write(data, 0, data.Length);
                     data = null;
                 }
                 catch
                 {
-                    Console.WriteLine("Подключение прервано!");
+                    Console.WriteLine("Подключение прервано![SendMessage]");
                     client.Close();
                     stream.Close();
                     break;
